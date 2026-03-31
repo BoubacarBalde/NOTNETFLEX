@@ -1,11 +1,13 @@
-mixin Movie {
+import 'package:notnetflex/services/api.dart';
+
+class Movie {
 
   late final int id;
   late final String name;
   late final String description;
   late final String paterPath;
 
-  Movie({required this.id, required this.nom, required this.description, this.paterPath });
+  Movie({required this.id, required this.name, required this.description, required this.paterPath });
 
 
   Movie copyWith({
@@ -21,6 +23,20 @@ mixin Movie {
         description: description ?? this.description,
         paterPath: paterPath ?? this.paterPath
     );
+  }
+
+  factory Movie.fromJson(Map<String,dynamic> map){
+       return Movie(
+         id: map['id'],
+         name: map['name'],
+         description: map['description'],
+         paterPath: map['poster_path'] ,
+       );
+  }
+
+  String posterURL(){
+    API api = API();
+    return api.baseImageURL + paterPath;
   }
 
 }

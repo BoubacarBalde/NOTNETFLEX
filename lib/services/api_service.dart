@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:notnetflex/models/Movie.dart';
 import 'package:notnetflex/services/api.dart';
 
 class ApiService {
@@ -29,6 +30,29 @@ class ApiService {
       return response;
     }else{
       throw response;
+    }
+  }
+
+
+  Future<List<Movie>> getPopularMovies({required int pageNumber}) async{
+    Response response = await getData('movie/popular', params: {
+      'page': pageNumber
+    });
+
+    if(response.statusCode == 200){
+       Map data = response.data;
+       List<Map<String,dynamic>> resultats = data['results'];
+       List<Movie> movies = [];
+
+       for(Map<String, dynamic> json in resultats){
+         Movie movie = Movie.fromJson(json);
+         movies.add(movie);
+       }
+
+       return movies;
+
+    }else{
+       throw response;
     }
   }
 
