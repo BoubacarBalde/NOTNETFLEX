@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notnetflex/models/Movie.dart';
+import 'package:notnetflex/services/api_service.dart';
 import 'package:notnetflex/utils/constante.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +12,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  List<Movie>? movies;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMovies();
+  }
+
+  void getMovies(){
+    APIService().getPopularMovies(pageNumber: 1).then((movieList){
+      print("Films récupérés: ${movieList.length}"); // 👈 ICI
+      setState(() {
+        movies = movieList;
+      });
+    }).catchError((e){
+      print("ERREUR API: $e"); // 👈 TRÈS IMPORTANT
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView(
         children: [
-          Container(height: 500, color: Colors.red),
+          Container(
+              height: 500,
+              color: Colors.red,
+              child: (movies == null || movies!.isEmpty)
+                  ? Center(child: Text('Null'),)
+                  : Image.network(movies![0].posterURL(),
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(child: Icon(Icons.error, color: Colors.white));
+                },
+              ),
+          ),
           //TODO:Partie 1
           SizedBox(height: 15),
           Text(
