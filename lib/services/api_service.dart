@@ -27,7 +27,7 @@ class APIService {
         queryParameters: query,
         options: Options(
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MjEwYmFkYTk1ZTg2NzYzNzQzN2RlYjdjODBlMDQzZCIsIm5iZiI6MTc3Mzk0NjI0NS45MjQsInN1YiI6IjY5YmM0NTg1YTAyOWFhYmFiMTAwZjc3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gjfqciWJaNiHVB3mN-PThnxCT4ezud34stuV53WFls0', // 👈 ICI
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MjEwYmFkYTk1ZTg2NzYzNzQzN2RlYjdjODBlMDQzZCIsIm5iZiI6MTc3Mzk0NjI0NS45MjQsInN1YiI6IjY5YmM0NTg1YTAyOWFhYmFiMTAwZjc3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gjfqciWJaNiHVB3mN-PThnxCT4ezud34stuV53WFls0',
             'accept': 'application/json',
           },
         ),
@@ -43,7 +43,7 @@ class APIService {
 
 
   Future<List<Movie>> getPopularMovies({required int pageNumber}) async{
-    Response response = await getData('movie/popular', params: {
+    Response response = await getData('/movie/popular', params: {
       'page': pageNumber
     });
 
