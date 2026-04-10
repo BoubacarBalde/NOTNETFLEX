@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notnetflex/models/Movie.dart';
-import 'package:notnetflex/services/api_service.dart';
+import 'package:notnetflex/repositories/data_repositories.dart';
 import 'package:notnetflex/utils/constante.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,29 +13,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  List<Movie>? movies;
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getMovies();
-  }
-
-  void getMovies(){
-    APIService().getPopularMovies(pageNumber: 1).then((movieList){
-      print("Films récupérés: ${movieList.length}"); // 👈 ICI
-      setState(() {
-        movies = movieList;
-      });
-    }).catchError((e){
-      print("ERREUR API: $e"); // 👈 TRÈS IMPORTANT
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataRepositories>(context);
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -47,9 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
               height: 500,
               color: Colors.red,
-              child: (movies == null || movies!.isEmpty)
-                  ? Center(child: Text('Null'),)
-                  : Image.network(movies![0].posterURL(),
+              child: dataProvider.popularMovieList.isEmpty
+                  ? Center(child: CircularProgressIndicator(),)
+                  : Image.network(dataProvider.popularMovieList[0].posterURL(),
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Center(child: Icon(Icons.error, color: Colors.white));
@@ -71,14 +57,18 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 160,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 100,
+              itemCount: 10,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     margin: EdgeInsets.only(right: 8),
                     width: 110,
                     color: Colors.yellow,
                     child: Center(
-                      child: Text(index.toString()),
+                      child: dataProvider.popularMovieList.isEmpty
+                      ?
+                      CircularProgressIndicator()
+                      : Image.network(dataProvider.popularMovieList[index].posterURL(),
+                      fit: BoxFit.cover,)
                     ),
                   );
                 }
@@ -98,18 +88,18 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 320,
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 100,
-                itemBuilder: (BuildContext context, int index){
-                  return Container(
-                    margin: EdgeInsets.only(right: 8),
-                    width: 220,
-                    color: Colors.blue,
-                    child: Center(
-                      child: Text(index.toString()),
-                    ),
-                  );
-                }
+              scrollDirection: Axis.horizontal,
+              itemCount: 100,
+              itemBuilder: (BuildContext context, int index){
+                return Container(
+                  margin: EdgeInsets.only(right: 8),
+                  width: 220,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(index.toString()),
+                  ),
+                );
+              }
             ),
           ),
           //TODO:Partie 3

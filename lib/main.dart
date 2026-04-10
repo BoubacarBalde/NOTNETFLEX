@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:notnetflex/repositories/data_repositories.dart';
+import 'package:notnetflex/ui/screens/loading_screen.dart';
 import 'package:notnetflex/ui/widgets/home_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+        create: (context) => DataRepositories(),
+        child: const MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomeScreen(),
+      home: const LoadingScreen(),
     );
   }
 }
