@@ -68,9 +68,30 @@ class APIService {
     }
   }
 
-  //TODO: Fonction pour recupere les films aui sont actuellement au cinema
+  //TODO: Fonction pour recupere les films qui sont actuellement au cinema
   Future<List<Movie>> getNowPlaying({required int pageNumber}) async{
     Response response = await getData('/movie/now_playing', params: {
+      'page': pageNumber
+    });
+
+    if(response.statusCode == 200){
+      Map data = response.data;
+      List<Movie> movies = data['results'].map<Movie>((dynamic moviJson){
+        return Movie.fromJson(moviJson);
+      }).toList();
+
+      return movies;
+
+    }else{
+      print(response);
+      throw response;
+
+    }
+  }
+
+  //TODO: Fonction pour recupere les films qui arrive bientot
+  Future<List<Movie>> getUpcomingMovie({required int pageNumber}) async{
+    Response response = await getData('/movie/upcoming', params: {
       'page': pageNumber
     });
 
