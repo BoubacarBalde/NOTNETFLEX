@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notnetflex/repositories/data_repositories.dart';
 import 'package:notnetflex/ui/screens/loading_screen.dart';
-import 'package:notnetflex/ui/widgets/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

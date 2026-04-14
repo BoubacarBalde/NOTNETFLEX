@@ -41,7 +41,7 @@ class APIService {
     }
   }
 
-
+  //TODO: Fonction pour recuperer les fils populaire
   Future<List<Movie>> getPopularMovies({required int pageNumber}) async{
     Response response = await getData('/movie/popular', params: {
       'page': pageNumber
@@ -64,6 +64,27 @@ class APIService {
     }else{
       print(response);
        throw response;
+
+    }
+  }
+
+  //TODO: Fonction pour recupere les films aui sont actuellement au cinema
+  Future<List<Movie>> getNowPlaying({required int pageNumber}) async{
+    Response response = await getData('/movie/now_playing', params: {
+      'page': pageNumber
+    });
+
+    if(response.statusCode == 200){
+      Map data = response.data;
+      List<Movie> movies = data['results'].map<Movie>((dynamic moviJson){
+        return Movie.fromJson(moviJson);
+      }).toList();
+
+      return movies;
+
+    }else{
+      print(response);
+      throw response;
 
     }
   }

@@ -9,10 +9,16 @@ class DataRepositories with ChangeNotifier{
   final List<Movie> _popularMovieList = [];
   int _popularMovieListPageIndex = 1;
 
+  final List<Movie> _nowPlaying = [];
+  int _nowPlayingPageIndex = 1;
+
 
   //Getteur
   List<Movie> get popularMovieList => _popularMovieList;
+  List<Movie> get nowPlaying => _nowPlaying;
 
+
+  //TODO: Recupereation des films populaire
   Future<void> getPopularMovies() async {
 
     try{
@@ -26,8 +32,23 @@ class DataRepositories with ChangeNotifier{
     }
   }
 
+  //TODO: Recupereation des films actuellement au cinema
+  Future<void> getNowPlaying() async {
+
+    try{
+      List<Movie> movies = await apiService.getNowPlaying(pageNumber:_nowPlayingPageIndex);
+      _nowPlaying.addAll(movies);
+      _nowPlayingPageIndex++;
+      notifyListeners();
+    }on Response catch(response) {
+      print('ERROR: ${response}');
+      rethrow;
+    }
+  }
+
   Future<void> initData() async {
     await getPopularMovies();
+    await getNowPlaying();
   }
 
 }

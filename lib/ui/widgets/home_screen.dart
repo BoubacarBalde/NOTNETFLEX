@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:notnetflex/repositories/data_repositories.dart';
 import 'package:notnetflex/ui/widgets/movie_card.dart';
 import 'package:notnetflex/ui/widgets/movie_categorie.dart';
@@ -44,13 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
             movieList: dataProvider.popularMovieList,
             callback: dataProvider.getPopularMovies,
           ),
-          // //TODO:Partie 2
-          // MovieCategorie(
-          //   imageHeigth: 320,
-          //   imageWidth: 220,
-          //   label: 'Actuellement au cinéma',
-          //   movieList: dataProvider.popularMovieList
-          // ),
+          //TODO:Partie 2
+          MovieCategorie(
+            imageHeigth: 320,
+            imageWidth: 220,
+            label: 'Actuellement au cinéma',
+            movieList: dataProvider.nowPlaying,
+            callback: dataProvider.getNowPlaying,
+          ),
           // //TODO:Partie 3
           // MovieCategorie(
           //   imageHeigth: 160,
