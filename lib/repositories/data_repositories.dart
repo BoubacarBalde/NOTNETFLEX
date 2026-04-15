@@ -83,10 +83,12 @@ class DataRepositories with ChangeNotifier{
   }
 
   Future<void> initData() async {
-    await getPopularMovies();
-    await getNowPlaying();
-    await getUpcommingMovie();
-    await getAnimationMovie();
+    await Future.wait([
+      getPopularMovies(),
+      getNowPlaying(),
+      getUpcommingMovie(),
+      getAnimationMovie(),
+    ]);
   }
 
 }
