@@ -110,4 +110,26 @@ class APIService {
     }
   }
 
+  //TODO: Fonction pour recupere les films par Categorie Animé
+  Future<List<Movie>> getAnimationMovie({required int pageNumber}) async{
+    Response response = await getData('/discover/movie', params: {
+      'page': pageNumber,
+      'with_genres': '16'
+    });
+
+    if(response.statusCode == 200){
+      Map data = response.data;
+      List<Movie> movies = data['results'].map<Movie>((dynamic moviJson){
+        return Movie.fromJson(moviJson);
+      }).toList();
+
+      return movies;
+
+    }else{
+      print(response);
+      throw response;
+
+    }
+  }
+
 }
