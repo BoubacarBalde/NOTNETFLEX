@@ -8,6 +8,8 @@ import 'package:notnetflex/ui/widgets/movie_info.dart';
 import 'package:notnetflex/utils/constante.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/my_video_player.dart';
+
 class MovieDetailsPage extends StatefulWidget {
   final Movie movie;
 
@@ -49,6 +51,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   width: MediaQuery.of(context).size.width,
                   height: 220,
                   color: Colors.red,
+                  child: MyVideoPlayer(movieId: newMovie!.videos!.first,),
                 ),
                 MovieInfo(movie: newMovie!),
                 SizedBox(height: 10),
