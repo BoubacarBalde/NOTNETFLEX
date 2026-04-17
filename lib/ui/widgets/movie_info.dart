@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notnetflex/models/Movie.dart';
-import 'package:notnetflex/utils/constante.dart';
 
 class MovieInfo extends StatelessWidget {
   final Movie movie;
@@ -59,54 +58,6 @@ class MovieInfo extends StatelessWidget {
               ),
             ),
           ],
-        ),
-        SizedBox(height: 10),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 30,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.play_arrow, color: kBackgroundColor),
-              SizedBox(width: 5,),
-              Text(
-                'Lecture',
-                style: GoogleFonts.poppins(
-                  color: kBackgroundColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 10),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 30,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.download, color: kBackgroundColor),
-              SizedBox(width: 5,),
-              Text(
-                'Telechgarger',
-                style: GoogleFonts.poppins(
-                  color: kBackgroundColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
         ),
       ],
     );

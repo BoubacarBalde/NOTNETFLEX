@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notnetflex/models/Movie.dart';
 import 'package:notnetflex/repositories/data_repositories.dart';
+import 'package:notnetflex/ui/widgets/action_button.dart';
 import 'package:notnetflex/ui/widgets/movie_info.dart';
 import 'package:notnetflex/utils/constante.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,21 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   height: 220,
                   color: Colors.red,
                 ),
-                MovieInfo(movie: newMovie!)
+                MovieInfo(movie: newMovie!),
+                SizedBox(height: 10),
+                ActionButton(
+                  label: 'Lecture',
+                  icon: Icons.play_arrow,
+                  bgColor: Colors.white,
+                  colorText: kBackgroundColor,
+                ),
+                SizedBox(height: 10),
+                ActionButton(
+                  label: 'Télécharger la viedéo',
+                  icon: Icons.download,
+                  bgColor: Colors.white.withOpacity(0.3),
+                  colorText: Colors.white,
+                ),
               ],
             ),
     );
