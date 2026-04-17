@@ -52,4 +52,17 @@ class Movie {
     API api = API();
     return api.baseImageURL + paterPath;
   }
+
+  String reformateGenre(){
+    String categories = '';
+
+    for(int i = 0; i < genre!.length - 1; i++){
+      if(i == genre!.length - 1){
+        categories = categories + genre![i];
+      }else{
+        categories = '$categories${genre![i]}, ';
+      }
+    }
+    return categories;
+  }
 }
