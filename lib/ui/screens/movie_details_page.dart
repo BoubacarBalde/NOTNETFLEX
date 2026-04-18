@@ -50,8 +50,20 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 220,
-                  color: Colors.red,
-                  child: MyVideoPlayer(movieId: newMovie!.videos!.first,),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade600,
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  child: newMovie!.videos!.isEmpty
+                    ? Center(
+                    child: Text(
+                        'Pas de video',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white
+                        ),
+                    )
+                  )
+                  : MyVideoPlayer(movieId: newMovie!.videos!.first,)
                 ),
                 MovieInfo(movie: newMovie!),
                 SizedBox(height: 10),

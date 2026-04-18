@@ -52,6 +52,10 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
              handleColor: kPrimaryColor,
             playedColor: kPrimaryColor,
           ),
+      onEnded: (YoutubeMetaData meta){
+            _controller!.play();
+            _controller!.pause();
+      },
         );
   }
 }
