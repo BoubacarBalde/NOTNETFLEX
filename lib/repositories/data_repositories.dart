@@ -91,6 +91,9 @@ class DataRepositories with ChangeNotifier{
      //On recupere les video du film
      newMovie = await apiService.getMovieVideos(movie: newMovie);
 
+     //On recupere les casting du film
+     newMovie = await apiService.getMovieCasting(movie: newMovie);
+
      return newMovie;
    }on Response catch(response){
      print('ERROR: ${response.statusCode}');

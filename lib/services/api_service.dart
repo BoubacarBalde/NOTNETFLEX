@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:notnetflex/models/Movie.dart';
+import 'package:notnetflex/models/personne.dart';
 import 'package:notnetflex/services/api.dart';
 
 class APIService {
@@ -12,9 +13,7 @@ class APIService {
 
     //on construit les paramètres de la requete
     //Ces paramètre seront presents dans chaque requestes
-    Map<String, dynamic> query = {
-      'language': 'fr-FR',
-    };
+    Map<String, dynamic> query = {'language': 'fr-FR'};
 
     //Si paramètre n'est pas nul on ajoute son contenu a query
     if (params != null) {
@@ -27,7 +26,8 @@ class APIService {
       queryParameters: query,
       options: Options(
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MjEwYmFkYTk1ZTg2NzYzNzQzN2RlYjdjODBlMDQzZCIsIm5iZiI6MTc3Mzk0NjI0NS45MjQsInN1YiI6IjY5YmM0NTg1YTAyOWFhYmFiMTAwZjc3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gjfqciWJaNiHVB3mN-PThnxCT4ezud34stuV53WFls0',
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MjEwYmFkYTk1ZTg2NzYzNzQzN2RlYjdjODBlMDQzZCIsIm5iZiI6MTc3Mzk0NjI0NS45MjQsInN1YiI6IjY5YmM0NTg1YTAyOWFhYmFiMTAwZjc3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gjfqciWJaNiHVB3mN-PThnxCT4ezud34stuV53WFls0',
           'accept': 'application/json',
         },
       ),
@@ -43,9 +43,10 @@ class APIService {
 
   //TODO: Fonction pour recuperer les fils populaire
   Future<List<Movie>> getPopularMovies({required int pageNumber}) async {
-    Response response = await getData('/movie/popular', params: {
-      'page': pageNumber
-    });
+    Response response = await getData(
+      '/movie/popular',
+      params: {'page': pageNumber},
+    );
 
     if (response.statusCode == 200) {
       Map data = response.data;
@@ -67,9 +68,10 @@ class APIService {
 
   //TODO: Fonction pour recupere les films qui sont actuellement au cinema
   Future<List<Movie>> getNowPlaying({required int pageNumber}) async {
-    Response response = await getData('/movie/now_playing', params: {
-      'page': pageNumber
-    });
+    Response response = await getData(
+      '/movie/now_playing',
+      params: {'page': pageNumber},
+    );
 
     if (response.statusCode == 200) {
       Map data = response.data;
@@ -86,9 +88,10 @@ class APIService {
 
   //TODO: Fonction pour recupere les films qui arrive bientot
   Future<List<Movie>> getUpcomingMovie({required int pageNumber}) async {
-    Response response = await getData('/movie/upcoming', params: {
-      'page': pageNumber
-    });
+    Response response = await getData(
+      '/movie/upcoming',
+      params: {'page': pageNumber},
+    );
 
     if (response.statusCode == 200) {
       Map data = response.data;
@@ -105,10 +108,10 @@ class APIService {
 
   //TODO: Fonction pour recupere les films par Categorie Animé
   Future<List<Movie>> getAnimationMovie({required int pageNumber}) async {
-    Response response = await getData('/discover/movie', params: {
-      'page': pageNumber,
-      'with_genres': '16'
-    });
+    Response response = await getData(
+      '/discover/movie',
+      params: {'page': pageNumber, 'with_genres': '16'},
+    );
 
     if (response.statusCode == 200) {
       Map data = response.data;
@@ -135,9 +138,9 @@ class APIService {
       }).toList();
 
       Movie newMovie = movie.copyWith(
-          genre: genreList,
-          releaseData: _data['release_date'],
-          vote: _data['vote_average']
+        genre: genreList,
+        releaseData: _data['release_date'],
+        vote: _data['vote_average'],
       );
 
       return newMovie;
@@ -150,18 +153,54 @@ class APIService {
   Future<Movie> getMovieVideos({required Movie movie}) async {
     Response response = await getData('/movie/${movie.id}/videos');
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       Map _data = response.data;
 
-      List<String> videoKey = _data['results'].map<String>((videoJson){
+      List<String> videoKey = _data['results'].map<String>((videoJson) {
         return videoJson['key'] as String;
       }).toList();
 
       return movie.copyWith(videos: videoKey);
-    }else{
+    } else {
       throw response;
     }
   }
 
+  //TODO: Fonction pour recupere les Personnage du films
+  Future<Movie> getMovieCasting({required Movie movie}) async {
+    Response response = await getData('/movie/${movie.id}/credits');
+    if (response.statusCode == 200) {
+      Map _data = response.data;
 
+      List<Personne> _casting = _data['cast'].map<Personne>((
+        dynamic personJson,
+      ) {
+        return Personne.fromJson(personJson);
+      }).toList();
+
+      return movie.copyWith(casting: _casting);
+    } else {
+      throw response;
+    }
+  }
+
+//TODO: Fonction pour recupere les photo du fimls
+ Future<Movie> getMovieImage({required Movie movie}) async{
+    Response response = await getData('/movie/{movie_id}/images', params: {
+      'include_image_language':'null',
+    });
+
+    if(response.statusCode == 200){
+      //on recupere tout les image
+      Map _data = response.data;
+      List<String> imagePath = _data['backdrops'].map<String>((dynamic imageJson){
+         return imageJson['file_path'] as String;
+      }).toList();
+
+      return movie.copyWith(images: imagePath);
+
+    }else{
+      throw response;
+    }
+ }
 }

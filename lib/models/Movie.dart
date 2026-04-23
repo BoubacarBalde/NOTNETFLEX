@@ -1,3 +1,4 @@
+import 'package:notnetflex/models/personne.dart';
 import 'package:notnetflex/services/api.dart';
 
 class Movie {
@@ -9,6 +10,8 @@ class Movie {
   final String? releaseData;
   final double? vote;
   final List<String>? videos;
+  final List<Personne>? casting;
+  final List<String>? images;
 
   Movie({
     required this.id,
@@ -18,7 +21,9 @@ class Movie {
     this.genre,
     this.releaseData,
     this.vote,
-    this.videos
+    this.videos,
+    this.casting,
+    this.images
   });
 
   Movie copyWith({
@@ -30,6 +35,8 @@ class Movie {
     String? releaseData,
     double? vote,
     List<String>? videos,
+    List<Personne>? casting,
+    List<String>? images,
   }) {
     return Movie(
       id: id ?? this.id,
@@ -39,7 +46,9 @@ class Movie {
       genre: genre ?? this.genre,
       releaseData: releaseData ?? this.releaseData,
       vote: vote ?? this.vote,
-      videos: videos ?? this.videos
+      videos: videos ?? this.videos,
+      casting: casting ?? this.casting,
+      images: images ?? this.images
     );
   }
 
