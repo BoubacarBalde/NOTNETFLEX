@@ -106,6 +106,16 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     },
                   ),
                 ),
+                SizedBox(height: 10,),
+                // SizedBox(
+                //   height: 200,
+                //   child: ListView.builder(
+                //     itemCount: newMovie!.images!.length,
+                //       itemBuilder: (context, index){
+                //         return GalerieGard(posterPath: newMovie!.images![index]);
+                //       }
+                //   ),
+                // )
               ],
             ),
     );

@@ -186,7 +186,7 @@ class APIService {
 
 //TODO: Fonction pour recupere les photo du fimls
  Future<Movie> getMovieImage({required Movie movie}) async{
-    Response response = await getData('/movie/{movie_id}/images', params: {
+    Response response = await getData('/movie/${movie.id}/images', params: {
       'include_image_language':'null',
     });
 
