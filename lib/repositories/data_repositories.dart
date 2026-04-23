@@ -82,26 +82,37 @@ class DataRepositories with ChangeNotifier{
     }
   }
 
-  //TODO: Recupereation des Details d'un fim
+  // //TODO: Recupereation des Details d'un fim
+  // Future<Movie> getMovieDetails({required Movie movie}) async{
+  //  try{
+  //    //On recupere les infos du film
+  //    Movie newMovie = await apiService.getMovieDetails(movie: movie);
+  //
+  //    //On recupere les video du film
+  //    newMovie = await apiService.getMovieVideos(movie: newMovie);
+  //
+  //    //On recupere les casting du film
+  //    newMovie = await apiService.getMovieCasting(movie: newMovie);
+  //
+  //    //on recupere les images du films
+  //    newMovie = await apiService.getMovieImage(movie: newMovie);
+  //
+  //    return newMovie;
+  //  }on Response catch(response){
+  //    print('ERROR: ${response.statusCode}');
+  //    throw response;
+  //  }
+
+//TODO: Recupereation des Details d'un fim
   Future<Movie> getMovieDetails({required Movie movie}) async{
-   try{
-     //On recupere les infos du film
-     Movie newMovie = await apiService.getMovieDetails(movie: movie);
-
-     //On recupere les video du film
-     newMovie = await apiService.getMovieVideos(movie: newMovie);
-
-     //On recupere les casting du film
-     newMovie = await apiService.getMovieCasting(movie: newMovie);
-
-     //on recupere les images du films
-     newMovie = await apiService.getMovieImage(movie: newMovie);
-
-     return newMovie;
-   }on Response catch(response){
-     print('ERROR: ${response.statusCode}');
-     throw response;
-   }
+    try{
+      //On recupere les infos du film
+      Movie newMovie = await apiService.getMovie(movie: movie);
+      return newMovie;
+    }on Response catch(response){
+      print('ERROR: ${response.statusCode}');
+      throw response;
+    }
     
   }
   

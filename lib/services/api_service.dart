@@ -126,81 +126,132 @@ class APIService {
     }
   }
 
-  //TODO: Fonction pour recupere les details d'un film
-  Future<Movie> getMovieDetails({required Movie movie}) async {
-    Response response = await getData('/movie/${movie.id}');
+  //   //TODO: Fonction pour recupere les details d'un film
+  //   Future<Movie> getMovieDetails({required Movie movie}) async {
+  //     Response response = await getData('/movie/${movie.id}');
+  //
+  //     if (response.statusCode == 200) {
+  //       Map<String, dynamic> _data = response.data;
+  //       var genres = _data['genres'] as List;
+  //       List<String> genreList = genres.map((item) {
+  //         return item['name'] as String;
+  //       }).toList();
+  //
+  //       Movie newMovie = movie.copyWith(
+  //         genre: genreList,
+  //         releaseData: _data['release_date'],
+  //         vote: _data['vote_average'],
+  //       );
+  //
+  //       return newMovie;
+  //     } else {
+  //       throw response;
+  //     }
+  //   }
+  //
+  //   //TODO: Fonction pour recupere les Video d'un film
+  //   Future<Movie> getMovieVideos({required Movie movie}) async {
+  //     Response response = await getData('/movie/${movie.id}/videos');
+  //
+  //     if (response.statusCode == 200) {
+  //       Map _data = response.data;
+  //
+  //       List<String> videoKey = _data['results'].map<String>((videoJson) {
+  //         return videoJson['key'] as String;
+  //       }).toList();
+  //
+  //       return movie.copyWith(videos: videoKey);
+  //     } else {
+  //       throw response;
+  //     }
+  //   }
+  //
+  //   //TODO: Fonction pour recupere les Personnage du films
+  //   Future<Movie> getMovieCasting({required Movie movie}) async {
+  //     Response response = await getData('/movie/${movie.id}/credits');
+  //     if (response.statusCode == 200) {
+  //       Map _data = response.data;
+  //
+  //       List<Personne> _casting = _data['cast'].map<Personne>((dynamic personJson,) {
+  //         return Personne.fromJson(personJson);
+  //       }).toList();
+  //
+  //       return movie.copyWith(casting: _casting);
+  //     } else {
+  //       throw response;
+  //     }
+  //   }
+  //
+  // //TODO: Fonction pour recupere les photo du films
+  //  Future<Movie> getMovieImage({required Movie movie}) async{
+  //     Response response = await getData('/movie/${movie.id}/images', params: {
+  //       'include_image_language':'null',
+  //     });
+  //
+  //     if(response.statusCode == 200){
+  //       //on recupere toutes les images
+  //       Map _data = response.data;
+  //       List<String> imagePath = _data['backdrops'].map<String>((dynamic imageJson){
+  //          return imageJson['file_path'] as String;
+  //       }).toList();
+  //
+  //       return movie.copyWith(images: imagePath);
+  //
+  //     }else{
+  //       throw response;
+  //     }
+  //  }
+
+  //TODO: Fonction pour recupere touts les detaille du films
+  Future<Movie> getMovie({required Movie movie}) async {
+    Response response = await getData(
+      '/movie/${movie.id}',
+      params: {
+        'append_to_response': 'videos,credits,images',
+        'include_image_language': 'null',
+      },
+    );
 
     if (response.statusCode == 200) {
       Map<String, dynamic> _data = response.data;
+
+      //On recupere les genre
       var genres = _data['genres'] as List;
       List<String> genreList = genres.map((item) {
         return item['name'] as String;
       }).toList();
 
-      Movie newMovie = movie.copyWith(
-        genre: genreList,
-        releaseData: _data['release_date'],
-        vote: _data['vote_average'],
-      );
-
-      return newMovie;
-    } else {
-      throw response;
-    }
-  }
-
-  //TODO: Fonction pour recupere les Video d'un film
-  Future<Movie> getMovieVideos({required Movie movie}) async {
-    Response response = await getData('/movie/${movie.id}/videos');
-
-    if (response.statusCode == 200) {
-      Map _data = response.data;
-
-      List<String> videoKey = _data['results'].map<String>((videoJson) {
+      //On recupere les video
+      List<String> videoKey = _data['videos']['results'].map<String>((
+        videoJson,
+      ) {
         return videoJson['key'] as String;
       }).toList();
 
-      return movie.copyWith(videos: videoKey);
-    } else {
-      throw response;
-    }
-  }
-
-  //TODO: Fonction pour recupere les Personnage du films
-  Future<Movie> getMovieCasting({required Movie movie}) async {
-    Response response = await getData('/movie/${movie.id}/credits');
-    if (response.statusCode == 200) {
-      Map _data = response.data;
-
-      List<Personne> _casting = _data['cast'].map<Personne>((
+      //On recupere les photo utilisateur
+      List<Personne> _casting = _data['credits']['cast'].map<Personne>((
         dynamic personJson,
       ) {
         return Personne.fromJson(personJson);
       }).toList();
 
-      return movie.copyWith(casting: _casting);
+      //On Recupere les photos du film
+      List<String> imagePath = _data['images']['backdrops'].map<String>((
+        dynamic imageJson,
+      ) {
+        return imageJson['file_path'] as String;
+      }).toList();
+
+      return movie.copyWith(
+        genre: genreList,
+        videos: videoKey,
+        casting: _casting,
+        images: imagePath,
+        releaseData: _data['release_date'],
+        vote: _data['vote_average'],
+      );
     } else {
       throw response;
     }
   }
-
-//TODO: Fonction pour recupere les photo du fimls
- Future<Movie> getMovieImage({required Movie movie}) async{
-    Response response = await getData('/movie/${movie.id}/images', params: {
-      'include_image_language':'null',
-    });
-
-    if(response.statusCode == 200){
-      //on recupere toutes les images
-      Map _data = response.data;
-      List<String> imagePath = _data['backdrops'].map<String>((dynamic imageJson){
-         return imageJson['file_path'] as String;
-      }).toList();
-
-      return movie.copyWith(images: imagePath);
-
-    }else{
-      throw response;
-    }
- }
 }
