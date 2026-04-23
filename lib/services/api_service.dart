@@ -191,7 +191,7 @@ class APIService {
     });
 
     if(response.statusCode == 200){
-      //on recupere tout les image
+      //on recupere toutes les images
       Map _data = response.data;
       List<String> imagePath = _data['backdrops'].map<String>((dynamic imageJson){
          return imageJson['file_path'] as String;

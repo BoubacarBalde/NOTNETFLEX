@@ -10,6 +10,7 @@ import 'package:notnetflex/utils/constante.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/cating_card.dart';
+import '../widgets/galerie_card.dart';
 import '../widgets/my_video_player.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -107,15 +108,25 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                 ),
                 SizedBox(height: 10,),
-                // SizedBox(
-                //   height: 200,
-                //   child: ListView.builder(
-                //     itemCount: newMovie!.images!.length,
-                //       itemBuilder: (context, index){
-                //         return GalerieGard(posterPath: newMovie!.images![index]);
-                //       }
-                //   ),
-                // )
+                Text(
+                  'Galerie',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: newMovie!.images!.length,
+                      itemBuilder: (context, index){
+                        return GalerieCard(posterPath: newMovie!.images![index]);
+                      }
+                  ),
+                ),
+                SizedBox(height: 20),
               ],
             ),
     );
