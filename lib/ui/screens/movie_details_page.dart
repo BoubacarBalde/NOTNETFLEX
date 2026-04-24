@@ -44,7 +44,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      appBar: AppBar(backgroundColor: kBackgroundColor),
+      appBar: AppBar(
+        backgroundColor: kBackgroundColor,
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
+      ),
       body: newMovie == null
           ? SpinKitFadingCircle(color: kPrimaryColor)
           : ListView(
@@ -107,7 +110,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 Text(
                   'Galerie',
                   style: GoogleFonts.poppins(
@@ -121,9 +124,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: newMovie!.images!.length,
-                      itemBuilder: (context, index){
-                        return GalerieCard(posterPath: newMovie!.images![index]);
-                      }
+                    itemBuilder: (context, index) {
+                      return GalerieCard(posterPath: newMovie!.images![index]);
+                    },
                   ),
                 ),
                 SizedBox(height: 20),
